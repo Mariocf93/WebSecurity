@@ -228,6 +228,8 @@
     <Content Include="Views\Home\AddRole.cshtml" />
     <Content Include="Views\Home\AddUserToRole.cshtml" />
     <Content Include="Views\Home\AdminOnly.cshtml" />
+    <Content Include="Views\Home\ManagersOnly.cshtml" />
+    <Content Include="Views\Home\Staff.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,8 +1,7 @@
 ﻿
 @{
-    ViewBag.Title = "AdminOnly";
+    ViewBag.Title = "ManagersOnly";
 }
-
 @{
     if (Request.IsAuthenticated && (User.IsInRole("Mario")))
     {
@@ -40,7 +39,8 @@
         @Html.Raw("&nbsp;]&nbsp;");
     }
 }
-<h1>Administrators Only</h1>
-<p>This Area Should only be visible to Administration members!</p>
+<h1>Managers Only!</h1>
+<p>This Area Should only be visible to Managerial members!</p>
+
 
 

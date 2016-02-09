@@ -116,7 +116,18 @@ namespace WebSecurity_InClass.Controllers
         {
             return View();
         }
-
+        [Authorize(Roles = "Manager,Admin")]
+        public ActionResult ManagersOnly()
+        {
+            return View();
+        }
+        // To allow more than one role access use syntax like the following:
+        // [Authorize(Roles="Admin, Staff")]
+        [Authorize(Roles = "Staff")]
+        public ActionResult Staff()
+        {
+            return View();
+        }
         [Authorize]
         public ActionResult SecureArea()
         {
