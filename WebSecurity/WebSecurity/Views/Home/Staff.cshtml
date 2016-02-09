@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewBag.Title = "Staff";
+}
+@{
+    if (Request.IsAuthenticated && (User.IsInRole("Mario")))
+    {
+        @Html.ActionLink("Secure Area", "SecureArea", "Home", new { @class = "btn btn-primary", @style = "color:white" });
+        @Html.Raw("&nbsp;||&nbsp;");
+        @Html.ActionLink("Managers", "ManagersOnly", "Home", new { @class = "btn btn-primary", @style = "color:white" });
+        @Html.Raw("&nbsp;||&nbsp;");
+        @Html.ActionLink("Admin", "AdminOnly", "Home", new { @class = "btn btn-primary", @style = "color:white" });
+        @Html.Raw("&nbsp;||&nbsp;");
+        @Html.ActionLink("Logout", "Logout", "Home", new { @class = "btn btn-primary", @style = "color:white" });
+        @Html.Raw("&nbsp;[&nbsp;");
+        @Html.Raw(User.Identity.Name);
+        @Html.Raw("&nbsp;]&nbsp;");
+    }
+    else if (Request.IsAuthenticated && (User.IsInRole("Manager")))
+    {
+        @Html.ActionLink("Secure Area", "SecureArea", "Home", new { @class = "btn btn-primary", @style = "color:white" });
+        @Html.Raw("&nbsp;||&nbsp;");
+        @Html.ActionLink("Managers", "ManagersOnly", "Home", new { @class = "btn btn-primary", @style = "color:white" });
+        @Html.Raw("&nbsp;||&nbsp;");
+        @Html.ActionLink("Logout", "Logout", "Home", new { @class = "btn btn-primary", @style = "color:white" });
+        @Html.Raw("&nbsp;[&nbsp;");
+        @Html.Raw(User.Identity.Name);
+        @Html.Raw("&nbsp;]&nbsp;");
+    }
+    else if (Request.IsAuthenticated && (User.IsInRole("Staff")))
+    {
+        @Html.ActionLink("Secure Area", "SecureArea", "Home", new { @class = "btn btn-primary", @style = "color:white" });
+        @Html.Raw("&nbsp;||&nbsp;");
+        @Html.ActionLink("Staff", "Staff", "Home", new { @class = "btn btn-primary", @style = "color:white" });
+        @Html.Raw("&nbsp;||&nbsp;");
+        @Html.ActionLink("Logout", "Logout", "Home", new { @class = "btn btn-primary", @style = "color:white" });
+        @Html.Raw("&nbsp;[&nbsp;");
+        @Html.Raw(User.Identity.Name);
+        @Html.Raw("&nbsp;]&nbsp;");
+    }
+}
+<h1>Staff Area</h1>
+
+<p>This Area Should only be visible to staff members!</p>
