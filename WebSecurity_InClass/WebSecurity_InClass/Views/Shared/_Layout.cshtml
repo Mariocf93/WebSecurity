@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title Page</title>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
@@ -18,20 +18,69 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Centurion", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    @{
+                        if (Request.IsAuthenticated && (User.IsInRole("Mario")))
+                        {
+                            <li>@Html.ActionLink("Secure Area", "SecureArea", "Home");</li>
+                            <li>@Html.ActionLink("Managers", "ManagersOnly", "Home");</li>
+                            <li>@Html.ActionLink("Admin", "AdminOnly", "Home");</li>
+                            <li>@Html.ActionLink("Logout", "Logout", "Home");</li>
+                            <li style="color:white"><a>[@User.Identity.Name]</a></li>
+                        }
+                        else if (Request.IsAuthenticated && (User.IsInRole("Manager")))
+                        {
+                            <li>@Html.ActionLink("Secure Area", "SecureArea", "Home");</li>
+                            <li>@Html.ActionLink("Managers", "ManagersOnly", "Home");</li>
+                            <li>@Html.ActionLink("Logout", "Logout", "Home");</li>
+                            <li style="color:white"><a>[@User.Identity.Name]</a></li>
+                        }
+                        else if (Request.IsAuthenticated && (User.IsInRole("Staff")))
+                        {
+                            <li>@Html.ActionLink("Secure Area", "SecureArea", "Home");</li>
+                            <li>@Html.ActionLink("Staff", "Staff", "Home");</li>
+                            <li>@Html.ActionLink("Logout", "Logout", "Home");</li>
+                            <li style="color:white"><a>[@User.Identity.Name]</a></li>
+                        }
+                        else
+                        {
+                            if (ViewBag.Title == "Register")
+                            {
+                                <li>@Html.ActionLink("Login", "Index", "Home")</li>
+                                <li>@Html.ActionLink("ForgotPassword", "ForgotPassword", "Home")</li>
+                            }
+                            else if (ViewBag.Title == "Index")
+                            {
+                                <li>@Html.ActionLink("Register", "Register", "Home")</li>
+                                <li>@Html.ActionLink("ForgotPassword", "ForgotPassword", "Home")</li>
+
+                            }
+                            else if (ViewBag.Title == "ForgotPassword")
+                            {
+                                <li>@Html.ActionLink("Register", "Register", "Home")</li>
+                                <li>@Html.ActionLink("Login", "Index", "Home")</li>
+
+                            }
+                            else
+                            {
+                                <li>@Html.ActionLink("Login", "Index", "Home")</li>
+
+                            }
+                        }
+                    }
                 </ul>
             </div>
         </div>
     </div>
 
     <div class="container body-content">
-        @RenderBody()
+                @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - Mario's Login Page Application</p>
         </footer>
     </div>
 

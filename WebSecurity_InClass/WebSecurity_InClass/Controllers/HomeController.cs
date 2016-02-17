@@ -30,18 +30,19 @@ namespace WebSecurity_InClass.Controllers
         [HttpPost]
         public ActionResult Index(Login login)
         {
+            System.Threading.Thread.Sleep(2000); // Add two second delay
             // UserStore and UserManager manages data retreival.
             UserStore<IdentityUser> userStore = new UserStore<IdentityUser>();
             UserManager<IdentityUser> manager = new UserManager<IdentityUser>(userStore);
-            IdentityUser identityUser = manager.Find(login.UserName,login.Password);
-          
+            IdentityUser identityUser = manager.Find(login.UserName, login.Password);
+
             if (ModelState.IsValid)
             {
                 CaptchaHelper captchaHelper = new CaptchaHelper();
                 string captchaResponse = captchaHelper.CheckRecaptcha();
                 ViewBag.CaptchaResponse = captchaResponse;
 
-                if (ValidLogin(login) && captchaResponse==VALID_CAPTCHA)
+                if (ValidLogin(login) && captchaResponse == VALID_CAPTCHA)
                 {
                     IAuthenticationManager authenticationManager
                                            = HttpContext.GetOwinContext().Authentication;
@@ -130,6 +131,10 @@ namespace WebSecurity_InClass.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegisteredUser newUser)
         {
+            CaptchaHelper captchaHelper = new CaptchaHelper();
+            string captchaResponse = captchaHelper.CheckRecaptcha();
+            ViewBag.CaptchaResponse = captchaResponse;
+            TempData["captcha"] = captchaResponse;
             var userStore = new UserStore<IdentityUser>();
             UserManager<IdentityUser> manager = new UserManager<IdentityUser>(userStore)
             {
@@ -144,7 +149,7 @@ namespace WebSecurity_InClass.Controllers
             };
             IdentityResult result = manager.Create(identityUser, newUser.Password);
 
-            if (result.Succeeded)
+            if (result.Succeeded && captchaResponse == VALID_CAPTCHA)
             {
                 CreateTokenProvider(manager, EMAIL_CONFIRMATION);
 
@@ -156,10 +161,11 @@ namespace WebSecurity_InClass.Controllers
                 string email = "<h3>Please confirm your account by clicking this link:</h3><a href=\""
                                 + callbackUrl + "\">Confirm Registration</a>";
                 MailHelper mailer = new MailHelper();
-                string response = mailer.EmailFromArvixe(newUser,email);
+                string response = mailer.EmailFromArvixe(newUser, email);
                 ViewBag.Response = response;
+                TempData["response"] = response;
             }
-            return View();
+                return RedirectToAction("Index","Home");
         }
         [HttpGet]
         public ActionResult AddRole()
@@ -224,19 +230,28 @@ namespace WebSecurity_InClass.Controllers
         [HttpPost]
         public ActionResult ForgotPassword(string email)
         {
-            var userStore = new UserStore<IdentityUser>();
-            UserManager<IdentityUser> manager = new UserManager<IdentityUser>(userStore);
-            var user = manager.FindByEmail(email);
-            CreateTokenProvider(manager, PASSWORD_RESET);
-            var code = manager.GeneratePasswordResetToken(user.Id);
-            var callbackUrl = Url.Action("ResetPassword", "Home",
-                                         new { userId = user.Id, code = code },
-                                         protocol: Request.Url.Scheme);
-            var emailMsg = "<h3>Please reset your password by clicking</h3> <a href=\""
-                                     + callbackUrl + "\">here</a>";
-            MailHelper mailer = new MailHelper();
-            string response = mailer.EmailFromArvixe(new RegisteredUser {Email= user.Email,UserName = user.UserName }, emailMsg);
-            ViewBag.Response = response;
+
+            CaptchaHelper captchaHelper = new CaptchaHelper();
+            string captchaResponse = captchaHelper.CheckRecaptcha();
+            ViewBag.CaptchaResponse = captchaResponse;
+            if (captchaResponse == VALID_CAPTCHA)
+            {
+                var userStore = new UserStore<IdentityUser>();
+                UserManager<IdentityUser> manager = new UserManager<IdentityUser>(userStore);
+                var user = manager.FindByEmail(email);
+                CreateTokenProvider(manager, PASSWORD_RESET);
+                var code = manager.GeneratePasswordResetToken(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Home",
+                                             new { userId = user.Id, code = code },
+                                             protocol: Request.Url.Scheme);
+                var emailMsg = "<h3>Please reset your password by clicking</h3> <a href=\""
+                                         + callbackUrl + "\">This Link</a>";
+                MailHelper mailer = new MailHelper();
+                string response = mailer.EmailFromArvixe(new RegisteredUser { Email = user.Email, UserName = user.UserName }, emailMsg);
+                ViewBag.Response = response;
+                TempData["response"] = response;
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
@@ -259,10 +274,15 @@ namespace WebSecurity_InClass.Controllers
 
             IdentityResult result = manager.ResetPassword(userID, passwordToken, password);
             if (result.Succeeded)
-                ViewBag.Result = "The password has been reset.";
+            {
+                TempData["result"] = "The password has been reset.";
+            }
             else
+            {
                 ViewBag.Result = "The password has not been reset.";
-            return View();
+                return View();
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult Logout()

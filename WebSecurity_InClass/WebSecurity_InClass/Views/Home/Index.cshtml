@@ -4,13 +4,7 @@
     ViewBag.Title = "Index";
 }
 <br />
-@Html.ActionLink("Register", "Register", "Home", new { @class = "btn btn-primary", @style = "color:white" })
-@Html.Raw("&nbsp;||&nbsp;")
-@Html.ActionLink("Login", "Index", "Home", new { @class = "btn btn-primary", @style = "color:white" })
-@Html.Raw("&nbsp;||&nbsp;")
-@Html.ActionLink("ForgotPassword", "ForgotPassword", "Home", new { @class = "btn btn-primary", @style = "color:white" })
 <h2>Login</h2>
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -35,7 +29,6 @@
         </div>
         <div class="g-recaptcha inp50" data-sitekey="6LchWBgTAAAAAGDJ4F7sOiAicFOzIKWcDSg-jk64
 "></div>
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Login" class="btn btn-default" />
@@ -43,7 +36,12 @@
         </div>
     </div>
 }
-@Html.Raw(ViewBag.CaptchaResponse)
+<div class="alert-success"> @Html.Raw(ViewBag.CaptchaResponse)</div>
+<div class="alert-success"> @Html.Raw(TempData["captcha"])</div>
+<div class="alert-success">
+    @Html.Raw(TempData["response"])
+</div>
+<div class="alert-success">@Html.Raw(TempData["result"])</div>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
