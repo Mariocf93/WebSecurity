@@ -6,6 +6,8 @@ using System.Web;
 using System.Web.Mvc;
 using WebSecurity_InClass.Models.ViewModels;
 using System.Linq;
+using WebSecurity_InClass.BusinessLayer;
+using WebSecurity_InClass.BusinessLogic;
 
 namespace WebSecurity_InClass.Controllers
 {
@@ -13,6 +15,7 @@ namespace WebSecurity_InClass.Controllers
     {
         const string EMAIL_CONFIRMATION = "EmailConfirmation";
         const string PASSWORD_RESET = "ResetPassword";
+        const string VALID_CAPTCHA = "Valid";
 
         void CreateTokenProvider(UserManager<IdentityUser> manager, string tokenType)
         {
@@ -30,12 +33,15 @@ namespace WebSecurity_InClass.Controllers
             // UserStore and UserManager manages data retreival.
             UserStore<IdentityUser> userStore = new UserStore<IdentityUser>();
             UserManager<IdentityUser> manager = new UserManager<IdentityUser>(userStore);
-            IdentityUser identityUser = manager.Find(login.UserName,
-                                                             login.Password);
-
+            IdentityUser identityUser = manager.Find(login.UserName,login.Password);
+          
             if (ModelState.IsValid)
             {
-                if (ValidLogin(login))
+                CaptchaHelper captchaHelper = new CaptchaHelper();
+                string captchaResponse = captchaHelper.CheckRecaptcha();
+                ViewBag.CaptchaResponse = captchaResponse;
+
+                if (ValidLogin(login) && captchaResponse==VALID_CAPTCHA)
                 {
                     IAuthenticationManager authenticationManager
                                            = HttpContext.GetOwinContext().Authentication;
@@ -147,9 +153,11 @@ namespace WebSecurity_InClass.Controllers
                                                 new { userId = identityUser.Id, code = code },
                                                     protocol: Request.Url.Scheme);
 
-                string email = "Please confirm your account by clicking this link: <a href=\""
+                string email = "<h3>Please confirm your account by clicking this link:</h3><a href=\""
                                 + callbackUrl + "\">Confirm Registration</a>";
-                ViewBag.FakeConfirmation = email;
+                MailHelper mailer = new MailHelper();
+                string response = mailer.EmailFromArvixe(newUser,email);
+                ViewBag.Response = response;
             }
             return View();
         }
@@ -220,13 +228,15 @@ namespace WebSecurity_InClass.Controllers
             UserManager<IdentityUser> manager = new UserManager<IdentityUser>(userStore);
             var user = manager.FindByEmail(email);
             CreateTokenProvider(manager, PASSWORD_RESET);
-
             var code = manager.GeneratePasswordResetToken(user.Id);
             var callbackUrl = Url.Action("ResetPassword", "Home",
                                          new { userId = user.Id, code = code },
                                          protocol: Request.Url.Scheme);
-            ViewBag.FakeEmailMessage = "Please reset your password by clicking <a href=\""
+            var emailMsg = "<h3>Please reset your password by clicking</h3> <a href=\""
                                      + callbackUrl + "\">here</a>";
+            MailHelper mailer = new MailHelper();
+            string response = mailer.EmailFromArvixe(new RegisteredUser {Email= user.Email,UserName = user.UserName }, emailMsg);
+            ViewBag.Response = response;
             return View();
         }
 

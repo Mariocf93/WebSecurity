@@ -7,8 +7,9 @@
 @Html.ActionLink("Register", "Register", "Home", new { @class = "btn btn-primary", @style = "color:white" })
 @Html.Raw("&nbsp;||&nbsp;")
 @Html.ActionLink("Login", "Index", "Home", new { @class = "btn btn-primary", @style = "color:white" })
+@Html.Raw("&nbsp;||&nbsp;")
+@Html.ActionLink("ForgotPassword", "ForgotPassword", "Home", new { @class = "btn btn-primary", @style = "color:white" })
 <h2>Login</h2>
-
 
 @using (Html.BeginForm())
 {
@@ -32,6 +33,8 @@
                 @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
             </div>
         </div>
+        <div class="g-recaptcha inp50" data-sitekey="6LchWBgTAAAAAGDJ4F7sOiAicFOzIKWcDSg-jk64
+"></div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -40,34 +43,7 @@
         </div>
     </div>
 }
-<table>
-    <tr>
-        <th>
-            Role
-        </th>
-        <th>
-            Login Name
-        </th>
-        <th>
-            Password
-        </th>
-    </tr>
-    <tr>
-        <td>Admin</td>
-        <td>Mario</td>
-        <td>Websites1dragons93</td>
-    </tr>
-    <tr>
-        <td>Manager</td>
-        <td>John</td>
-        <td>password</td>
-    </tr>
-    <tr>
-        <td>Staff</td>
-        <td>Jane</td>
-        <td>password</td>
-    </tr>
-</table>
+@Html.Raw(ViewBag.CaptchaResponse)
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
