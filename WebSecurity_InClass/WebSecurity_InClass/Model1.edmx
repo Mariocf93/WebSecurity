@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DeveloCurityBaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DeveloCurityBaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -65,6 +65,17 @@
           <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IPN">
+          <Key>
+            <PropertyRef Name="transactionID" />
+          </Key>
+          <Property Name="transactionID" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="txTime" Type="datetime" />
+          <Property Name="custom" Type="varchar" MaxLength="128" />
+          <Property Name="buyerEmail" Type="varchar" MaxLength="128" />
+          <Property Name="amount" Type="money" />
+          <Property Name="paymentStatus" Type="varchar" MaxLength="64" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
@@ -129,6 +140,7 @@
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IPN" EntityType="Self.IPN" Schema="MarioSSD" store:Type="Tables" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -146,8 +158,7 @@
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DeveloCurityBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -260,7 +271,19 @@
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <EntitySet Name="IPNs" EntityType="DeveloCurityBaseModel.IPN" />
         </EntityContainer>
+        <EntityType Name="IPN">
+          <Key>
+            <PropertyRef Name="transactionID" />
+          </Key>
+          <Property Name="transactionID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="txTime" Type="DateTime" Precision="3" />
+          <Property Name="custom" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="buyerEmail" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="amount" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="paymentStatus" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -330,6 +353,18 @@
               <ScalarProperty Name="Id" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="IPNs">
+            <EntityTypeMapping TypeName="DeveloCurityBaseModel.IPN">
+              <MappingFragment StoreEntitySet="IPN">
+                <ScalarProperty Name="paymentStatus" ColumnName="paymentStatus" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="buyerEmail" ColumnName="buyerEmail" />
+                <ScalarProperty Name="custom" ColumnName="custom" />
+                <ScalarProperty Name="txTime" ColumnName="txTime" />
+                <ScalarProperty Name="transactionID" ColumnName="transactionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

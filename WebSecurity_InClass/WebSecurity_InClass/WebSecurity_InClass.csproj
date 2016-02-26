@@ -155,6 +155,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Content Include="Images\centurionSecurityLogo.png" />
     <Content Include="Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
@@ -196,13 +197,18 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="BusinessLayer\CaptchaHelper.cs" />
+    <Compile Include="BusinessLogic\Paypal_IPN.cs" />
     <Compile Include="BusinessLogic\MailHelper.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="C__MigrationHistory.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="ExtensionMethods\IPNsExtensionMethods.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="IPN.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Model1.Context.cs">
       <AutoGen>True</AutoGen>
@@ -219,6 +225,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModels\IPNVM.cs" />
     <Compile Include="Models\ViewModels\Login.cs" />
     <Compile Include="Models\ViewModels\RegisteredUser.cs" />
     <Compile Include="Models\ViewModels\UserRole.cs" />
@@ -251,6 +258,8 @@
     <Content Include="Views\Home\ConfirmEmail.cshtml" />
     <Content Include="Views\Home\ForgotPassword.cshtml" />
     <Content Include="Views\Home\ResetPassword.cshtml" />
+    <Content Include="Views\Home\Attendees.cshtml" />
+    <Content Include="Views\Home\Shop.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

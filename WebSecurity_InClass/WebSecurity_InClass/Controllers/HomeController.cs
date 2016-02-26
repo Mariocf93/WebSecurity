@@ -8,6 +8,8 @@ using WebSecurity_InClass.Models.ViewModels;
 using System.Linq;
 using WebSecurity_InClass.BusinessLayer;
 using WebSecurity_InClass.BusinessLogic;
+using System;
+using WebSecurity_InClass.ExtensionMethods;
 
 namespace WebSecurity_InClass.Controllers
 {
@@ -283,6 +285,40 @@ namespace WebSecurity_InClass.Controllers
                 return View();
             }
             return RedirectToAction("Index", "Home");
+        }
+        public ActionResult Shop()
+        {
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult Attendees()
+        {
+            DeveloCurityBaseEntities context = new DeveloCurityBaseEntities();
+            
+            return View(context.IPNs.ToVM());
+        }
+        public ActionResult PayPal()
+        {
+            Paypal_IPN paypalResponse = new Paypal_IPN("test");
+
+            if (paypalResponse.TXN_ID != null)
+            {
+                DeveloCurityBaseEntities context = new DeveloCurityBaseEntities();
+                IPN ipn = new IPN();
+                ipn.transactionID = paypalResponse.TXN_ID;
+                decimal amount = Convert.ToDecimal(paypalResponse.PaymentGross);
+                ipn.amount = amount;
+                ipn.buyerEmail = paypalResponse.PayerEmail;
+                ipn.txTime = DateTime.Now;
+                ipn.custom = paypalResponse.Custom;
+                ipn.paymentStatus = paypalResponse.PaymentStatus;
+                ipn.transactionID = paypalResponse.TXN_ID;
+                context.IPNs.Add(ipn);
+                context.SaveChanges();
+            }
+            return View();
+
         }
 
         public ActionResult Logout()

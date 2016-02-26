@@ -7,7 +7,7 @@
 <h2>Login</h2>
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
+    //@Html.AntiForgeryToken()
 
     <div class="form-horizontal">
         <hr />
@@ -35,12 +35,33 @@
         </div>
     </div>
 }
-<div class="alert-success"> @Html.Raw(ViewBag.CaptchaResponse)</div>
-<div class="alert-success"> @Html.Raw(TempData["captcha"])</div>
-<div class="alert-success">
-    @Html.Raw(TempData["response"])
-</div>
-<div class="alert-success">@Html.Raw(TempData["result"])</div>
+@{
+    if (ViewBag.CaptchaResponse != null)
+    {
+        <div class="alert alert-success"> @Html.Raw(ViewBag.CaptchaResponse)</div>
+
+    }
+}
+@{
+    if (TempData["captcha"]!=null)
+    {
+
+        <div class="alert alert-success"> @Html.Raw(TempData["captcha"])</div>
+    }
+}
+@{
+    if (TempData["response"] != null)
+    {
+        <div class="alert alert-success">
+            @Html.Raw(TempData["response"])
+        </div>    }
+}
+@{
+    if (TempData["result"] != null)
+    {
+        <div class="alert alert-success">@Html.Raw(TempData["result"])</div>
+           }
+}
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
