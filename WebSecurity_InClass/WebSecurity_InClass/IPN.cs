@@ -20,5 +20,8 @@ namespace WebSecurity_InClass
         public string buyerEmail { get; set; }
         public Nullable<decimal> amount { get; set; }
         public string paymentStatus { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public Nullable<int> totalTickets { get; set; }
     }
 }

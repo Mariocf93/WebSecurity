@@ -26,58 +26,59 @@
                     @{
                         if (Request.IsAuthenticated && (User.IsInRole("Mario")))
                         {
-                            <li>@Html.ActionLink("Ticket Store", "Shop", "Home")</li>
-                            <li>@Html.ActionLink("Secure Area", "SecureArea", "Home");</li>
-                            <li>@Html.ActionLink("Managers", "ManagersOnly", "Home");</li>
-                            <li>@Html.ActionLink("Admin", "AdminOnly", "Home");</li>
-                            <li>@Html.ActionLink("Logout", "Logout", "Home");</li>
-                            <li style="color:white"><h4>[@User.Identity.Name]</h4></li>
+                            <li>@Html.ActionLink("Ticket Store", "Shop", "Home", new { area = "" }, new { @class = "navbar-nav" })</li>
+                            <li>@Html.ActionLink("Attendees", "Attendees", "Home", new { area = "" }, new { @class = "navbar-nav" });</li>
+                            <li>@Html.ActionLink("Secure Area", "SecureArea", "Home", new { area = "" }, new { @class = "navbar-nav" });</li>
+                            <li>@Html.ActionLink("Managers", "ManagersOnly", "Home", new { area = "" }, new { @class = "navbar-nav" });</li>
+                            <li>@Html.ActionLink("Admin", "AdminOnly", "Home", new { area = "" }, new { @class = "navbar-nav" });</li>
+                            <li>@Html.ActionLink("Logout", "Logout", "Home", new { area = "" }, new { @class = "navbar-nav" });</li>
+                            <li style="color:white" class="navbar-nav"><h4>[@User.Identity.Name]</h4></li>
                         }
                         else if (Request.IsAuthenticated && (User.IsInRole("Manager")))
                         {
-                            <li>@Html.ActionLink("Ticket Store", "Shop", "Home")</li>
-                            <li>@Html.ActionLink("Secure Area", "SecureArea", "Home");</li>
-                            <li>@Html.ActionLink("Managers", "ManagersOnly", "Home");</li>
-                            <li>@Html.ActionLink("Logout", "Logout", "Home");</li>
-                            <li style="color:white"><h4>[@User.Identity.Name]</h4></li>
+                            <li>@Html.ActionLink("Ticket Store", "Shop", "Home", new { area = "" }, new { @class = "navbar-nav" })</li>
+                            <li>@Html.ActionLink("Attendees", "Attendees", "Home", new { area = "" }, new { @class = "navbar-nav" });</li>
+                            <li>@Html.ActionLink("Secure Area", "SecureArea", "Home", new { area = "" }, new { @class = "navbar-nav" });</li>
+                            <li>@Html.ActionLink("Managers", "ManagersOnly", "Home", new { area = "" }, new { @class = "navbar-nav" });</li>
+                            <li>@Html.ActionLink("Logout", "Logout", "Home", new { area = "" }, new { @class = "navbar-nav" });</li>
+                            <li style="color:white" class="navbar-nav"><h4>[@User.Identity.Name]</h4></li>
                         }
                         else if (Request.IsAuthenticated && (User.IsInRole("Staff")))
                         {
-                            <li>@Html.ActionLink("Ticket Store", "Shop", "Home")</li>
-                    <li>@Html.ActionLink("Secure Area", "SecureArea", "Home");</li>
-                            <li>@Html.ActionLink("Staff", "Staff", "Home");</li>
-                            <li>@Html.ActionLink("Logout", "Logout", "Home");</li>
-                            <li style="color:white"><h4>[@User.Identity.Name]</h4></li>
+                            <li>@Html.ActionLink("Ticket Store", "Shop", "Home", new { area = "" }, new { @class = "navbar-nav" })</li>
+                            <li>@Html.ActionLink("Attendees", "Attendees", "Home", new { area = "" }, new { @class = "navbar-nav" });</li>
+                    <li>@Html.ActionLink("Secure Area", "SecureArea", "Home", new { area = "" }, new { @class = "navbar-nav" });</li>
+                            <li>@Html.ActionLink("Staff", "Staff", "Home", new { area = "" }, new { @class = "navbar-nav" });</li>
+                            <li>@Html.ActionLink("Logout", "Logout", "Home", new { area = "" }, new { @class = "navbar-nav" });</li>
+                            <li style="color:white" class="navbar-nav"><h4>[@User.Identity.Name]</h4></li>
                         }
                         else
                         {
                             if (ViewBag.Title == "Register")
                             {
-                                <li>@Html.ActionLink("Login", "Index", "Home")</li>
-                                <li>@Html.ActionLink("Forgot Password", "ForgotPassword", "Home")</li>
-                                <li>@Html.ActionLink("Ticket Store", "Shop", "Home")</li>
+                                <li>@Html.ActionLink("Login", "Index", "Home", new { area = "" }, new { @class = "navbar-nav" })</li>
+                                <li>@Html.ActionLink("Ticket Store", "Shop", "Home", new { area = "" }, new { @class = "navbar-nav" })</li>
 
                             }
                             else if (ViewBag.Title == "Index")
                             {
-                                <li>@Html.ActionLink("Register", "Register", "Home")</li>
-                                <li>@Html.ActionLink("Forgot Password", "ForgotPassword", "Home")</li>               
-                                 <li>@Html.ActionLink("Ticket Store", "Shop", "Home")</li>
+                                <li>@Html.ActionLink("Register", "Register", "Home", new { area = "" }, new { @class = "navbar-nav" })</li>           
+                                 <li>@Html.ActionLink("Ticket Store", "Shop", "Home", new { area = "" }, new { @class = "navbar-nav" })</li>
 
 
                             }
                             else if (ViewBag.Title == "ForgotPassword")
                             {
-                                <li>@Html.ActionLink("Register", "Register", "Home")</li>
-                                <li>@Html.ActionLink("Login", "Index", "Home")</li>
-                                <li>@Html.ActionLink("Ticket Store", "Shop", "Home")</li>
+                                <li>@Html.ActionLink("Register", "Register", "Home", new { area = "" }, new { @class = "navbar-nav" })</li>
+                                <li>@Html.ActionLink("Login", "Index", "Home", new { area = "" }, new { @class = "navbar-nav" })</li>
+                                <li>@Html.ActionLink("Ticket Store", "Shop", "Home", new { area = "" }, new { @class = "navbar-nav" })</li>
 
 
                             }
                             else
                             {
-                                <li>@Html.ActionLink("Login", "Index", "Home")</li>
-                                <li>@Html.ActionLink("Ticket Store", "Shop", "Home")</li>
+                                <li>@Html.ActionLink("Login", "Index", "Home", new { area = "" }, new { @class = "navbar-nav" })</li>
+                                <li>@Html.ActionLink("Ticket Store", "Shop", "Home", new { area = "" }, new { @class = "navbar-nav" })</li>
 
                             }
                         }

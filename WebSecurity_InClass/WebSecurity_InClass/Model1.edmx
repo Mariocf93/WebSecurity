@@ -75,6 +75,9 @@
           <Property Name="custom" Type="varchar" MaxLength="128" />
           <Property Name="buyerEmail" Type="varchar" MaxLength="128" />
           <Property Name="amount" Type="money" />
+          <Property Name="firstName" Type="varchar" MaxLength="128" />
+          <Property Name="lastName" Type="varchar" MaxLength="128" />
+          <Property Name="totalTickets" Type="int" />
           <Property Name="paymentStatus" Type="varchar" MaxLength="64" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
@@ -283,6 +286,9 @@
           <Property Name="buyerEmail" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
           <Property Name="amount" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="paymentStatus" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="firstName" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="lastName" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="totalTickets" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -356,6 +362,9 @@
           <EntitySetMapping Name="IPNs">
             <EntityTypeMapping TypeName="DeveloCurityBaseModel.IPN">
               <MappingFragment StoreEntitySet="IPN">
+                <ScalarProperty Name="totalTickets" ColumnName="totalTickets" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
                 <ScalarProperty Name="paymentStatus" ColumnName="paymentStatus" />
                 <ScalarProperty Name="amount" ColumnName="amount" />
                 <ScalarProperty Name="buyerEmail" ColumnName="buyerEmail" />

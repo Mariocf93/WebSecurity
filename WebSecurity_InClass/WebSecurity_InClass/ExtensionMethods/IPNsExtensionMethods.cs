@@ -14,9 +14,11 @@ namespace WebSecurity_InClass.ExtensionMethods
             {
                 transID = i.transactionID,
                 sessionID = i.custom,
-                email = i.buyerEmail,
+                firstName = i.firstName,
                 amount = (double)i.amount,
-                paymentStat = i.paymentStatus
+                lastName = i.lastName,
+                transTime =(DateTime)i.txTime,
+                totalTixs = (int)i.totalTickets
             });
         }
     }

@@ -6,22 +6,31 @@
 
 <h2>Attendees</h2>
 
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.transID)
+            @Html.DisplayNameFor(model => model.transTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.firstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lastName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.sessionID)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.email)
+            @Html.DisplayNameFor(model => model.transID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.totalTixs)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.amount)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.paymentStat)
         </th>
         <th></th>
     </tr>
@@ -29,19 +38,30 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.transID)
+            @Html.DisplayFor(modelItem => item.transTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.firstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lastName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.sessionID)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.email)
+            @Html.DisplayFor(modelItem => item.transID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.totalTixs)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.amount)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.paymentStat)
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
         </td>
     </tr>
 }

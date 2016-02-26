@@ -288,6 +288,7 @@ namespace WebSecurity_InClass.Controllers
         }
         public ActionResult Shop()
         {
+           ViewBag.SessionID = this.Session.SessionID;
             return View();
         }
 
@@ -314,6 +315,9 @@ namespace WebSecurity_InClass.Controllers
                 ipn.custom = paypalResponse.Custom;
                 ipn.paymentStatus = paypalResponse.PaymentStatus;
                 ipn.transactionID = paypalResponse.TXN_ID;
+                ipn.firstName = paypalResponse.PayerFirstName;
+                ipn.lastName = paypalResponse.PayerLastName;
+                ipn.totalTickets = Convert.ToInt16(paypalResponse.Quantity);
                 context.IPNs.Add(ipn);
                 context.SaveChanges();
             }
